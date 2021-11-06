@@ -9,4 +9,4 @@ A simple program for calculating the shipping costs based on the item total cost
 
 The program writes to both the console window and a file named "Order.txt"
 
-
+![](images/demo.png)
