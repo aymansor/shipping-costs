@@ -28,17 +28,24 @@ const double USA_100 = 9.00;    // shipping costs for items <= $100.00 - $9.00
 const double USA_150 = 12.00;   // shipping costs for items <= $150.00 - $12.00
 const double USA_OVER = 0.00;   // shipping costs for items > $150.00 - $0.00
 
-const string SHIP_CAN = "CAN";
+const string SHIP_CAN = "CAN";  // canada
 const double CAN_50 = 8.00;
 const double CAN_100 = 12.00;
 const double CAN_150 = 15.00;
 const double CAN_OVER = 0.00;
 
-const string SHIP_AUS = "AUS";
+const string SHIP_AUS = "AUS";  // australia
 const double AUS_50 = 10.00;
 const double AUS_100 = 14.00;
 const double AUS_150 = 17.00;
 const double AUS_OVER = 0.00;
+
+const string SHIP_MAR = "MAR";  // mars
+const double MAR_50 = 150000;
+const double MAR_100 = 350000;
+const double MAR_150 = 500000;
+const double MAR_OVER = 75000;
+const double MAR_FRAGILE_FEE = 20000;
 
 // constants - output
 const int OUTPUT_LENGTH = HEADER_LENGTH - 15;
@@ -92,7 +99,7 @@ int main()
 
     // input - item shipping destination
     string itemDestination = "";
-    const string destinationMessage = "[>] Please enter destination. (usa/can/aus)";
+    const string destinationMessage = "[>] Please enter destination. (usa/can/aus/mar)";
 
     cout << destinationMessage << setw(OUTPUT_LENGTH - destinationMessage.length()) << ":";
     cin >> itemDestination;
@@ -134,7 +141,10 @@ void headerGenerator()
 void calculateShippingCosts(char itemFragile, double& shippingCost, string itemDestination, double itemTotal)
 {
     if (itemFragile == CHOICE_YES)
-        shippingCost = shippingCost + itemFragileFee;
+        if (itemDestination == SHIP_MAR)
+            shippingCost = shippingCost + MAR_FRAGILE_FEE;
+        else
+            shippingCost = shippingCost + itemFragileFee;
 
     if (itemDestination == SHIP_USA)  // if USA
     {
@@ -191,6 +201,25 @@ void calculateShippingCosts(char itemFragile, double& shippingCost, string itemD
         else
         {
             shippingCost = shippingCost + AUS_OVER;  // free - + $0.0
+        }
+    }
+    else if (itemDestination == SHIP_MAR)  // else if MAR
+    {
+        if (itemTotal < TOTAL_50)
+        {
+            shippingCost = shippingCost + MAR_50;  // + $150000.00
+        }
+        else if (itemTotal <= TOTAL_100)
+        {
+            shippingCost = shippingCost + MAR_100;  // + $350000.00
+        }
+        else if (itemTotal <= TOTAL_150)
+        {
+            shippingCost = shippingCost + MAR_150;  // + 500000.00
+        }
+        else
+        {
+            shippingCost = shippingCost + MAR_OVER;  // + $75000.0
         }
     }
     else
