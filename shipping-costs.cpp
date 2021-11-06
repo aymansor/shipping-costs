@@ -48,7 +48,7 @@ const double MAR_OVER = 75000;
 const double MAR_FRAGILE_FEE = 20000;
 
 // constants - output
-const int OUTPUT_LENGTH = HEADER_LENGTH - 15;
+const int OUTPUT_LENGTH = HEADER_LENGTH - 11;
 const char CURRENCY_SIGN = '$';
 
 // function declaration
